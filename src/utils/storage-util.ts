@@ -1,5 +1,5 @@
 import { LANG } from "@/constant";
-import { UserInfo } from "@/interfaces/user/user-info";
+import { IUserInfo } from "@/interfaces/user/user-info";
 import { langKeyType, langValueType } from "@/types";
 
 /** 本地存储工具 */
@@ -62,7 +62,7 @@ export class StorageUtil {
      * @description 设置用户信息
      * @param info 用户信息
      */
-    static setUserInfo(info: UserInfo): void {
+    static setUserInfo(info: IUserInfo): void {
         localStorage.setItem(this.userInfo, JSON.stringify(info));
     }
 
@@ -77,8 +77,8 @@ export class StorageUtil {
      * 获取用户信息
      * @returns 用户信息
      */
-    static getUserInfo(): UserInfo {
-        return JSON.parse(localStorage.getItem(this.userInfo) || '{}') as UserInfo;
+    static getUserInfo(): IUserInfo {
+        return JSON.parse(localStorage.getItem(this.userInfo) || '{}') as IUserInfo;
     }
 
 }

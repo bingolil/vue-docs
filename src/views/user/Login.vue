@@ -6,6 +6,7 @@
 import { Options, Vue } from "vue-class-component";
 
 @Options({
+  name:'Login',
   components: {},
 })
 export default class Login extends Vue {}

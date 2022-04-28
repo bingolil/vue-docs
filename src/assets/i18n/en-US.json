@@ -1,5 +1,17 @@
 {
   "lang": {
-    "login": "Login"
+    "login": "Login",
+    "common": {
+      "form": {
+        "submit": "Submit",
+        "reset": "Reset"
+      },
+      "upload": {
+        "selectFile": "Select file",
+        "startUpload": "Start upload",
+        "uploading": "Uploading",
+        "typeError": ""
+      }
+    }
   }
 }

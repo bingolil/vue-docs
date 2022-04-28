@@ -6,6 +6,7 @@
 import { Options, Vue } from "vue-class-component";
 
 @Options({
+  name: "Register",
   components: {},
 })
 export default class Register extends Vue {}

@@ -12,10 +12,12 @@
     "axios": "^0.26.0",
     "core-js": "^3.6.5",
     "dayjs": "^1.11.1",
+    "echarts": "^5.3.2",
+    "lodash-es": "^4.17.21",
     "normalize.css": "^8.0.1",
-    "viser-vue": "^2.4.8",
     "vue": "^3.0.0",
     "vue-class-component": "^8.0.0-0",
+    "vue-echarts": "^6.0.2",
     "vue-i18n": "^9.1.9",
     "vue-router": "^4.0.0-0",
     "vuex": "^4.0.0-0"

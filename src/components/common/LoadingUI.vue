@@ -14,6 +14,7 @@ import { Options, Vue } from "vue-class-component";
 import { mapState } from "vuex";
 
 @Options({
+  name: "LoadingUI",
   computed: mapState(["loading"]),
 })
 export default class LoadingUI extends Vue {}

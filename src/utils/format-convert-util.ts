@@ -1,12 +1,15 @@
 import dayjs from "dayjs";
 
+/** 时间类型 */
+type DateType = number | string | Date;
+
 /**
- * @description 通用时间过滤 example:html {{$filters.date(new Date(),'YYYY-MM-DD')}}
+ * @description 时间格式化
  * @param value 时间数据
  * @param pattern 格式，默认为 YYYY-MM-DD HH:mm:ss 格式
  * @returns 根据格式转换后的字符串
  */
-export const dateFormat = (value: number | string | Date, pattern = 'YYYY-MM-DD HH:mm:ss'): string => {
+export const dateFormat = (value: DateType, pattern = 'YYYY-MM-DD HH:mm:ss'): string => {
   return dayjs(value).format(pattern);
 }
 

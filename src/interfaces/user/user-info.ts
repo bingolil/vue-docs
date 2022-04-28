@@ -1,5 +1,5 @@
 /** 用户信息接口 */
-export interface UserInfo {
+export interface IUserInfo {
   /** 当前用户id */
   id?: number;
   /** 用户姓名 */

@@ -11,6 +11,7 @@ import { mapState } from "vuex";
 import LoadingUI from "@/components/common/LoadingUI.vue";
 
 @Options({
+  name: "App",
   components: { LoadingUI },
   computed: mapState(["uiLocale"]),
 })

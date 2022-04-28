@@ -1,6 +1,6 @@
-import { BasicControl } from "./basic-control";
+import { IBasicControl } from "./basic-control";
 
-export interface InputNumber extends BasicControl<number> {
+export interface IInputNumber extends IBasicControl<number | null> {
   /** 最大数 */
   max?: number;
   /** 最小数 */

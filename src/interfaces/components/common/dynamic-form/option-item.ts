@@ -1,5 +1,5 @@
 /** options接口 */
-export interface OptionItem {
+export interface IOptionItem {
   /** 展示的文本 */
   text: string;
   /** 绑定的数据 */

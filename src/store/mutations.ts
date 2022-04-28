@@ -5,13 +5,13 @@ import { StorageUtil } from "@/utils";
 import { MutationTypes } from "@/store/mutation-types";
 import { AppStateTypes } from "@/store/state";
 import { langValueType } from "@/types";
-import { UserInfo } from "@/interfaces/user/user-info";
+import { IUserInfo } from "@/interfaces/user/user-info";
 
 /** store的mutaions类型 */
 export type Mutations<S = AppStateTypes> = {
   [MutationTypes.SET_LOADING](state: S, payload: boolean): void,
   [MutationTypes.SET_LANG](state: S, payload: langValueType): void,
-  [MutationTypes.SET_USER_INFO](state: S, payload: UserInfo): void,
+  [MutationTypes.SET_USER_INFO](state: S, payload: IUserInfo): void,
   [MutationTypes.SET_TOKEN](state: S, payload: string): void
 }
 
@@ -25,7 +25,7 @@ export const mutations: MutationTree<AppStateTypes> & Mutations = {
     i18n.global.locale = payload; // 变更i18n的语言
     state.uiLocale = getUILocale(payload); // 变更ui库语言
   },
-  [MutationTypes.SET_USER_INFO](state, payload: UserInfo) {
+  [MutationTypes.SET_USER_INFO](state, payload: IUserInfo) {
     state.userInfo = payload;
     StorageUtil.setUserInfo(payload); // 将用户信息写入localStorage
   },
