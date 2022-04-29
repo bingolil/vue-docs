@@ -17,15 +17,20 @@ import {
   InputNumber,
   InputPassword,
   InputText,
-  Select,
+  SelectField,
+  SwitchField,
+  Textarea,
+  TimeField,
 } from "@/class/components/common/dynamic-form";
+import dayjs from "dayjs";
 
 @Options({
   name: "Home",
   components: { DynamicForm },
+  methods: { dayjs: dayjs },
 })
 export default class Home extends Vue {
-  /** 表单列表 */
+  /** 表单数据 */
   formItems: BasicField<any>[] = [
     new InputText({
       key: "username",
@@ -38,15 +43,35 @@ export default class Home extends Vue {
       ],
     }),
     new InputPassword({ key: "password", value: null, label: "密码" }),
+    new InputPassword({
+      key: "confirmPassword",
+      value: null,
+      label: "确认密码",
+      rules: [
+        { type: "required", message: "二次输入密码" },
+        { type: "equal", value: "password", message: "密码不一致" },
+      ],
+    }),
     new InputNumber({ key: "age", value: null, label: "年龄" }),
     new DateField({
       key: "birthday",
       value: null,
       label: "出生日期",
-      picker: "year",
       placeholder: "请选择年月",
-      valueFormat: "YYYY-MM",
-      format: "YYYY-MM",
+      valueFormat: "YYYY-MM-DD HH:mm:ss",
+      showTime: true,
+      minuteStep: 30,
+      format: "YYYY-MM-DD HH:mm:ss",
+      disabledDateFn: (current) => {
+        return current && current < dayjs().endOf("day");
+      },
+    }),
+    new TimeField({
+      key: "upTime",
+      showNow: false,
+      minuteStep: 30,
+      value: dayjs(new Date()),
+      label: "起床时间",
     }),
     new DateRange({
       key: "gaozhong",
@@ -58,7 +83,12 @@ export default class Home extends Vue {
       format: "YYYY-MM",
       rules: [{ type: "required", message: "请选择高中时期" }],
     }),
-    new Select({
+    new SwitchField({
+      key: "isAuto",
+      value: false,
+      label: "自动项目",
+    }),
+    new SelectField({
       key: "sex",
       value: null,
       label: "性别",

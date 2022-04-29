@@ -1,8 +1,9 @@
 import { DatePickerType } from "@/types";
+import { Dayjs } from "dayjs";
 import { IBasicControl } from "./basic-control";
 
 /** 时间范围控件参数接口 */
-export interface IDateRange extends IBasicControl<number[] | Date[] | string[]> {
+export interface IDateRange extends IBasicControl<Dayjs[] | null> {
 
   /** 日期格式 */
   format?: string;

@@ -1,5 +1,7 @@
 import { LANG } from "@/constant";
+import { IDisabledTimeConfig } from "@/interfaces/components/common/dynamic-form";
 import { Form } from "ant-design-vue";
+import { Dayjs } from "dayjs";
 
 /** 定义valueof */
 type valueof<T> = T[keyof T];
@@ -19,6 +21,13 @@ export type DatePickerType = 'year' | 'month' | 'week' | 'date';
 /** 下拉框类型，combobox单选，tags multiple多选 */
 export type SelectMode = 'multiple' | 'tags' | 'combobox';
 
+/** 不可选日期类型 */
+export type DisabledDateFn = (d: Dayjs) => boolean;
+
+/** 不可选时间类型 */
+export type DisabledTimeFn = (current: Dayjs | Dayjs[], type?: 'start' | 'end') => IDisabledTimeConfig | undefined;
+
+/** 校验类型 */
 export type AppRuleType = 'required' // 必填
   | 'minNum' // 数字最小值
   | 'maxNum' // 数字最大值

@@ -24,7 +24,7 @@ export const getUILocale = (lang = StorageUtil.getLang()): Locale => {
       dayjs.locale('en');
       return enUS;
     default:
-      dayjs('zh-cn');
+      dayjs.locale('zh-cn');
       return zhCN;
   }
 }

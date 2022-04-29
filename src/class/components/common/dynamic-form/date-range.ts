@@ -1,9 +1,10 @@
 import { IDateRange } from "@/interfaces/components/common/dynamic-form";
 import { DatePickerType } from "@/types";
+import { Dayjs } from "dayjs";
 import { BasicField } from "./basic-field";
 
 /** 时间范围控件类 */
-export class DateRange extends BasicField<number[] | Date[] | string[] | null>{
+export class DateRange extends BasicField<Dayjs[] | null>{
 
   /** 控件类型：时间范围 */
   readonly type = 'dateRange';

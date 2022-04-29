@@ -3,7 +3,7 @@ import { IBasicControl } from "./basic-control";
 import { IOptionItem } from "./option-item";
 
 /** 下拉框控件配置参数接口 */
-export interface ISelect extends IBasicControl<any> {
+export interface ISelectControl extends IBasicControl<any> {
   /**列表组 */
   options?: IOptionItem[];
   /** 支持清除 */

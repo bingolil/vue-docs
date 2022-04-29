@@ -1,9 +1,15 @@
 <template>
-  <a-form id="dynamic-form" :layout="layout" v-bind="formColConfig">
+  <a-form
+    id="dynamic-form"
+    :layout="layout"
+    v-bind="formColConfig"
+    :hideRequiredMark="!showStar"
+  >
     <template v-for="item in formItems" :key="item.key">
       <a-form-item
         :label="item.label"
         v-bind="dynamicUseForm.validateInfos[item.key]"
+        :required="starObj[item.key]"
       >
         <!-- 单行文本输入框 -->
         <template v-if="item.type === 'inputText'">
@@ -12,25 +18,26 @@
             :maxLength="item.maxLength"
             :disabled="!!item.disabled"
             :placeholder="item.placeholder"
+            @change="formValueChange($event, item.key, true)"
           />
         </template>
         <!-- 多行文本输入框 -->
         <template v-else-if="item.type === 'textarea'">
           <a-textarea
             v-model:value="formRef[item.key]"
-            :maxLength="item.maxLength"
             :disabled="item.disabled"
-            :autosize="item.rowsConfig"
+            :autoSize="item.rowsConfig"
             :placeholder="item.placeholder"
+            @change="formValueChange($event, item.key)"
           />
         </template>
         <!-- 密码框 -->
         <template v-if="item.type === 'inputPassword'">
           <a-input-password
             v-model:value="formRef[item.key]"
-            :maxLength="item.maxLength"
             :disabled="!!item.disabled"
             :placeholder="item.placeholder"
+            @change="formValueChange($event, item.key, true)"
           />
         </template>
         <!-- 数字输入框 -->
@@ -42,6 +49,7 @@
             :step="item.step"
             :disabled="!!item.disabled"
             :placeholder="item.placeholder"
+            @change="formValueChange($event, item.key)"
           />
         </template>
         <!-- 下拉框 -->
@@ -53,6 +61,7 @@
             :mode="item.mode"
             :default-open="item.defaultOpen"
             :placeholder="item.placeholder"
+            @change="formValueChange($event, item.key)"
           >
             <a-select-option
               v-for="option in item.options"
@@ -68,6 +77,7 @@
           <a-radio-group
             v-model:value="formRef[item.key]"
             :disabled="item.disabled"
+            @change="formValueChange($event, item.key)"
           >
             <a-radio
               v-for="option in item.options"
@@ -83,6 +93,7 @@
           <a-checkbox
             v-model:checked="formRef[item.key]"
             :disabled="!!item.disabled"
+            @change="formValueChange($event, item.key)"
           ></a-checkbox>
         </template>
         <!-- 多选框组 -->
@@ -91,6 +102,7 @@
             v-model:value="formRef[item.key]"
             :disabled="item.disabled"
             :options="item.options"
+            @change="formValueChange($event, item.key)"
           />
         </template>
         <!-- 日期控件 -->
@@ -104,6 +116,13 @@
             :placeholder="item.placeholder"
             :allow-clear="item.allowClear"
             :value-format="item.valueFormat"
+            :disabled-date="item.disabledDateFn"
+            :use12Hours="item.use12Hours"
+            :showNow="item.showNow"
+            :hour-step="item.hourStep"
+            :minute-step="item.minuteStep"
+            :second-step="item.secondStep"
+            @change="formValueChange($event, item.key)"
           />
         </template>
         <!-- 日期范围控件 -->
@@ -114,6 +133,7 @@
             :format="item.format"
             :allow-clear="item.allowClear"
             :value-format="item.valueFormat"
+            @change="formValueChange($event, item.key)"
           />
         </template>
         <!-- 时间控件 -->
@@ -123,6 +143,13 @@
             :disabled="item.disabled"
             :format="item.format"
             :value-format="item.valueFormat"
+            :disabledTime="item.disabledTimeFn"
+            :use12Hours="item.use12Hours"
+            :showNow="item.showNow"
+            :hour-step="item.hourStep"
+            :minute-step="item.minuteStep"
+            :second-step="item.secondStep"
+            @change="formValueChange($event, item.key)"
           />
         </template>
         <!-- swicth开关 -->
@@ -130,6 +157,7 @@
           <a-switch
             :disabled="item.disabled"
             v-model:checked="formRef[item.key]"
+            @change="formValueChange($event, item.key)"
           />
         </template>
       </a-form-item>
@@ -165,9 +193,11 @@ class Props {
   /** 表单对象list */
   formControls = prop({ type: Array, default: () => [] });
   /** 表单布局 'horizontal水平' | 'vertical堆叠' | 'inline内联' */
-  layout = prop({ type: String, default: () => "horizontal" });
+  layout = prop({ type: String, default: () => "inline" });
   /** 是否展示重置按钮 */
   showReset = prop({ type: Boolean, default: () => true });
+  /** 展示必填红色必填星号 */
+  showStar = prop({ type: Boolean, default: () => true });
   /** col栅格配置 */
   colConfig = prop({
     type: Object,
@@ -209,12 +239,18 @@ export default class DynamicForm extends Vue.with(Props) {
   rulesRef: { [key: string]: any } = {};
   /** 定义动态表单useForm */
   dynamicUseForm!: AntdUseFormType;
+  /** 必填绑定星号对象 */
+  starObj: { [key: string]: boolean } = {};
 
   created() {
+    console.log(toRaw(this.formControls));
     const formObj: { [key: string]: any } = {}; // 表单对象
     const rulesObj: { [key: string]: any } = {}; // 表单校验规则对象
     this.formItems.forEach((item) => {
       formObj[item.key] = item.value;
+      this.starObj[item.key] = !!item.rules.find((dd: IRuleItem) => {
+        return dd.type === "required";
+      });
       const validateFn = async (_rule: Rule, value: any) => {
         // item.rules.forEach(()=>{}) // return不能结束forEach循环，采用for循环
         for (let i = 0; i < item.rules.length; i++) {
@@ -240,17 +276,16 @@ export default class DynamicForm extends Vue.with(Props) {
             ) {
               return Promise.reject(kk.message); // number 最大值
             } else if (
-              kk.type === "minStrLen" && // string 最小长度
+              kk.type === "minStrLen" &&
               String(value).length < Number(kk.value)
             ) {
-              return Promise.reject(kk.message);
+              return Promise.reject(kk.message); // string 最小长度
             } else if (
-              kk.type === "maxStrLen" && // string最大长度
+              kk.type === "maxStrLen" &&
               String(value).length > Number(kk.value)
             ) {
-              return Promise.reject(kk.message);
+              return Promise.reject(kk.message); // string最大长度
             } else if (
-              // 正则校验
               kk.type === "regexp" &&
               !(kk.value as RegExp).test(value)
             ) {
@@ -266,8 +301,13 @@ export default class DynamicForm extends Vue.with(Props) {
             ) {
               return Promise.reject(kk.message); // 数组最大长度
             }
-            // if (kk.type === "equal") { // 密码相等
-            // }
+            if (kk.type === "equal") {
+              // 密码相等
+              const otherValue = toRaw(this.formRef[kk.value as string]);
+              if (otherValue && value !== otherValue) {
+                return Promise.reject(kk.message); // 两个控件的值相等
+              }
+            }
           }
         }
         return Promise.resolve();
@@ -296,10 +336,33 @@ export default class DynamicForm extends Vue.with(Props) {
       () => {}
     );
   }
+
+  /**
+   * @description 监听表单数据变化，通知父组件（父组件若需要）
+   * @param event 事件本身
+   * @param formObjKey 发生变化的表单key
+   * @param isInput 是否为文本输入框
+   */
+  formValueChange(event: any, formObjKey: string, isInputText?: boolean): void {
+    const { value } = isInputText ? event.target : { value: event };
+    console.log(value);
+    this.$emit("valueChange", { key: formObjKey, value });
+  }
 }
 </script>
 
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
+/deep/ .ant-form-item {
+  margin-bottom: 12px;
+  .ant-form-item-control {
+    .ant-form-item-control-input-content {
+      .ant-input-number,
+      .ant-select {
+        min-width: 200px;
+      }
+    }
+  }
+}
 </style>
 

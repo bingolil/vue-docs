@@ -1,9 +1,9 @@
-import { IOptionItem, ISelect } from "@/interfaces/components/common/dynamic-form";
+import { IOptionItem, ISelectControl } from "@/interfaces/components/common/dynamic-form";
 import { SelectMode } from "@/types";
 import { BasicField } from "./basic-field";
 
 /** 下拉框控件类 */
-export class Select extends BasicField<any>{
+export class SelectField extends BasicField<any>{
   /** 控件类型：下拉框 */
   readonly type = 'select';
 
@@ -16,7 +16,7 @@ export class Select extends BasicField<any>{
   /** 选择器类型 */
   mode: SelectMode;
 
-  constructor(options: ISelect) {
+  constructor(options: ISelectControl) {
     super(options);
     this.options = options.options || [];
     this.allowClear = options.allowClear === undefined ? true : options.allowClear;
