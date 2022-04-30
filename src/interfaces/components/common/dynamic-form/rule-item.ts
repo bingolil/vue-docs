@@ -15,9 +15,11 @@ export interface IRuleItem {
    * type === minArrLen 时，value为number类型，代表数组最小长度
    * type === maxArrLen 时，value为number类型，代表数组最大长度
    * type === regexp 时，value正则表达式
-   * type === equal 时，value为string类型，代表当前表单对象的属性名称
+   * type === equal 时，value为string类型，代表当前表单对象另一控件的属性名称
    */
   value?: number | RegExp | string;
   /** 校验触发方式 change值发生变化时校验，blur失去焦点时校验 */
   // trigger?: 'change' | 'blur';
+  /** 是否监听当前控件 type === equal，监听当前控件，在另外的控件展示错误 */
+  isListen?: boolean;
 }

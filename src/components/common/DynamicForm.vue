@@ -227,6 +227,7 @@ class Props {
   });
 }
 
+// 通用组件：动态表单（ex：dayjs使用的时候可以在Options中methods赋值一下）
 @Options({
   name: "DynamicForm",
 })
@@ -275,6 +276,16 @@ export default class DynamicForm extends Vue.with(Props) {
         // item.rules.forEach(()=>{}) // return不能结束forEach循环，采用for循环
         for (let i = 0; i < item.rules.length; i++) {
           const kk = item.rules[i] as IRuleItem;
+
+          if (kk.type === "equal" && !!kk.isListen === true) {
+            // 存在值相等时，触发校验
+            const otherValue = toRaw(this.formRef[kk.value as string]);
+            if (otherValue) {
+              // 对比控件存在值，触发校验
+              this.dynamicUseForm.validate(kk.value as string);
+            }
+          }
+
           if (kk.type === "required" && !value) {
             return Promise.reject(kk.message);
           }
@@ -320,9 +331,7 @@ export default class DynamicForm extends Vue.with(Props) {
               (value as []).length > Number(kk.value)
             ) {
               return Promise.reject(kk.message); // 数组最大长度
-            }
-            if (kk.type === "equal") {
-              // 密码相等
+            } else if (kk.type === "equal" && !!kk.isListen === false) {
               const otherValue = toRaw(this.formRef[kk.value as string]);
               if (otherValue && value !== otherValue) {
                 return Promise.reject(kk.message); // 两个控件的值相等
