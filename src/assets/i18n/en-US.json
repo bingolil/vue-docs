@@ -10,7 +10,8 @@
         "selectFile": "Select file",
         "startUpload": "Start upload",
         "uploading": "Uploading",
-        "typeError": ""
+        "typeError": "Please select file upload in {type} format",
+        "limitError": "You can upload up to {maxCount} files at a time"
       }
     }
   }

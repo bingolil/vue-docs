@@ -45,6 +45,8 @@ class Props {
   multiple = prop({ type: Boolean, default: () => false });
   /** 是否手动上传 */
   manual = prop({ type: Boolean, default: () => true });
+  /** 批量上传时，一次上传的文件个数 */
+  maxCount = prop({ type: Number, default: () => 1 });
 }
 
 // 组件：通用文件上传
@@ -52,10 +54,30 @@ class Props {
   name: "AppUploadFile",
 })
 export default class AppUploadFile extends Vue.with(Props) {
+  /** 限定上传的文件个格式数组 */
+  get allTypes(): string[] {
+    const list = this.fileType.split(",").map((type) => type.toLowerCase());
+    if (list.length === 1 && list[0].trim() === "") {
+      return [];
+    }
+    return list;
+  }
+
   /** 文件列表 */
   fileList: UploadFile[] = [];
   /** 是否为正在上传 */
   uploading = false;
+  /** 格式错误提示语，ex：beforeUpload中访问不了 this.$t  */
+  typeErrMsg = "";
+  /** 批量上传时，限制文件数量提示语 */
+  limitErrMsg = "";
+
+  created() {
+    const typeTips = "lang.common.upload.typeError";
+    this.typeErrMsg = this.$t(typeTips, { type: this.fileType });
+    const limitTips = "lang.common.upload.limitError";
+    this.limitErrMsg = this.$t(limitTips, { maxCount: this.maxCount });
+  }
 
   /**
    * 上传之前校验
@@ -63,15 +85,21 @@ export default class AppUploadFile extends Vue.with(Props) {
    * @returns true可上传 false不可上传
    */
   beforeUpload = (file: UploadFile) => {
-    // 限定的文件格式
-    const allType = this.fileType.split(",").map((type) => type.toLowerCase());
-    // 当前文件格式
-    const theType = file.name.substr(file.name.lastIndexOf(".")).toLowerCase();
-    if (allType.find((dd) => dd === theType)) {
-      const tips = "lang.common.upload.typeError";
-      message.warn(this.$t(tips, { type: this.fileType }));
-      return false;
+    console.log(this.allTypes);
+    if (this.allTypes.length > 0) {
+      // 需要校验格式
+      const theType = file.name.substr(file.name.lastIndexOf(".") + 1);
+      if (!this.allTypes.find((dd) => dd === theType.toLowerCase())) {
+        message.warning(this.typeErrMsg);
+        return false;
+      }
     }
+
+    if (this.manual) {
+      // 手动上传
+      this.fileList.push(file);
+    }
+
     return true;
   };
 

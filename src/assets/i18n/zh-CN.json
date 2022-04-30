@@ -10,7 +10,8 @@
         "selectFile": "选择文件",
         "startUpload": "开始上传",
         "uploading": "上传中",
-        "typeError": ""
+        "typeError": "请选择 {type} 格式的文件上传",
+        "limitError": "一次最多只能上传 {maxCount} 个文件"
       }
     }
   }
