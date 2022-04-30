@@ -13,8 +13,7 @@ export abstract class BasicField<T> {
   /** 表单控件占位内容 */
   placeholder: string | string[];
   /** 控件校验列表 */
-  rules?: IRuleItem[]
-
+  rules?: IRuleItem[];
   constructor(options: IBasicControl<T>) {
     this.key = options.key || '';
     this.label = options.label || '';

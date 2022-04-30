@@ -12,4 +12,8 @@ export interface ISelectControl extends IBasicControl<any> {
   defaultOpen?: boolean;
   /** 下拉框mode */
   mode?: SelectMode;
+  /** 最多显示多少个tag，多选时生效 */
+  maxTagCount?: number;
+  /** 是否可输入，可输入时，自动过滤下拉值 */
+  showSearch?: boolean;
 }

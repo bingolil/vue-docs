@@ -4,7 +4,7 @@ import { Dayjs } from "dayjs";
 import { BasicField } from "./basic-field";
 
 /** 时间控件类 */
-export class TimeField extends BasicField<Dayjs | null>{
+export class TimeField extends BasicField<Dayjs | Dayjs[] | null>{
 
   /** 控件类型 */
   type = 'time';

@@ -5,7 +5,6 @@ export * from './textarea';
 export * from './radio-group';
 export * from './select-control';
 export * from './date-control';
-export * from './date-range';
 export * from './time-control';
 export * from './rule-item';
 export * from './disabled-time-config';

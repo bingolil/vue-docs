@@ -5,6 +5,6 @@ export interface IInputNumber extends IBasicControl<number | null> {
   max?: number;
   /** 最小数 */
   min?: number;
-  /** 变化单位最小值 */
+  /** 每次改变的步数 */
   step?: number;
 }

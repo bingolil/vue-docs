@@ -5,7 +5,7 @@ import { TimeField } from "./time-field";
 /** 日期控件类 Date已被使用，采用DateField */
 export class DateField extends TimeField {
   /** 控件类型：日期 */
-  readonly type = 'date';
+  type = 'date';
 
   /** 时间选择器类型 */
   picker: DatePickerType;

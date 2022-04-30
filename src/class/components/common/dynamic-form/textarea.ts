@@ -1,8 +1,8 @@
 import { ITextarea } from "@/interfaces/components/common/dynamic-form";
-import { BasicField } from "./basic-field";
+import { InputText } from "./input-text";
 
 /** 多行文本输入框控件类 */
-export class Textarea extends BasicField<string | null> {
+export class Textarea extends InputText {
 
   /** 控件类型：多行文本输入框 */
   readonly type = 'textarea';

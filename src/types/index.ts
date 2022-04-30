@@ -24,7 +24,7 @@ export type SelectMode = 'multiple' | 'tags' | 'combobox';
 /** 不可选日期类型 */
 export type DisabledDateFn = (d: Dayjs) => boolean;
 
-/** 不可选时间类型 */
+/** 不可选时间类型，范围时间时存在type（代表开始和结束） */
 export type DisabledTimeFn = (current: Dayjs | Dayjs[], type?: 'start' | 'end') => IDisabledTimeConfig | undefined;
 
 /** 校验类型 */

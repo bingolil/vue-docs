@@ -10,7 +10,7 @@ export interface IBasicControl<T> {
   label: string;
   /** 控件不可选 */
   disabled?: boolean;
-  /** 控件占位内容 */
+  /** 控件占位内容，时间范围选择时，为string[] */
   placeholder?: string | string[];
   /** 校验规则 */
   rules?: IRuleItem[]

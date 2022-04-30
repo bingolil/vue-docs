@@ -15,9 +15,11 @@
         <template v-if="item.type === 'inputText'">
           <a-input
             v-model:value="formRef[item.key]"
-            :maxLength="item.maxLength"
+            :showCount="item.showCount"
+            :maxlength="item.maxLength"
             :disabled="!!item.disabled"
             :placeholder="item.placeholder"
+            :allow-clear="item.allowClear"
             @change="formValueChange($event, item.key, true)"
           />
         </template>
@@ -26,8 +28,11 @@
           <a-textarea
             v-model:value="formRef[item.key]"
             :disabled="item.disabled"
+            :maxlength="item.maxLength"
             :autoSize="item.rowsConfig"
+            :allow-clear="item.allowClear"
             :placeholder="item.placeholder"
+            :showCount="item.showCount"
             @change="formValueChange($event, item.key)"
           />
         </template>
@@ -59,13 +64,17 @@
             :disabled="item.disabled"
             :allow-clear="item.allowClear"
             :mode="item.mode"
+            :show-search="item.showSearch"
+            :filter-option="filterOption"
             :default-open="item.defaultOpen"
+            :maxTagCount="item.maxTagCount"
             :placeholder="item.placeholder"
             @change="formValueChange($event, item.key)"
           >
             <a-select-option
               v-for="option in item.options"
               :key="option.value"
+              :text="option.text"
               :disabled="!!option.disabled"
             >
               {{ option.text }}
@@ -117,6 +126,7 @@
             :allow-clear="item.allowClear"
             :value-format="item.valueFormat"
             :disabled-date="item.disabledDateFn"
+            :disabled-time="item.disabledTimeFn"
             :use12Hours="item.use12Hours"
             :showNow="item.showNow"
             :hour-step="item.hourStep"
@@ -130,9 +140,18 @@
           <a-range-picker
             v-model:value="formRef[item.key]"
             :disabled="item.disabled"
+            :picker="item.picker"
             :format="item.format"
-            :allow-clear="item.allowClear"
             :value-format="item.valueFormat"
+            :allow-clear="item.allowClear"
+            :placeholder="item.placeholder"
+            :disabled-date="item.disabledDateFn"
+            :disabled-time="item.disabledTimeFn"
+            :use12Hours="item.use12Hours"
+            :show-time="item.showTime"
+            :hour-step="item.hourStep"
+            :minute-step="item.minuteStep"
+            :second-step="item.secondStep"
             @change="formValueChange($event, item.key)"
           />
         </template>
@@ -141,9 +160,10 @@
           <a-time-picker
             v-model:value="formRef[item.key]"
             :disabled="item.disabled"
+            :picker="item.picker"
             :format="item.format"
             :value-format="item.valueFormat"
-            :disabledTime="item.disabledTimeFn"
+            :disabled-time="item.disabledTimeFn"
             :use12Hours="item.use12Hours"
             :showNow="item.showNow"
             :hour-step="item.hourStep"
@@ -322,6 +342,16 @@ export default class DynamicForm extends Vue.with(Props) {
     console.log("dynamic form created...");
   }
 
+  /**
+   * @description 下拉框输入过滤方法，showSearch为true时生效
+   * @param input 输入的值
+   * @param option 过滤的项
+   * @returns true展示当前项，false不展示当前项
+   */
+  filterOption(input: string, option: any): boolean {
+    return option.text.toLowerCase().indexOf(input.toLowerCase()) >= 0;
+  }
+
   /** 重置表单 */
   resetFields(): void {
     this.dynamicUseForm.resetFields();
@@ -354,13 +384,19 @@ export default class DynamicForm extends Vue.with(Props) {
 <!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped lang="less">
 /deep/ .ant-form-item {
-  margin-bottom: 12px;
+  margin-bottom: 24px;
+  &.ant-form-item-with-help {
+    margin-bottom: 0px;
+  }
   .ant-form-item-control {
     .ant-form-item-control-input-content {
       .ant-input-number,
       .ant-select {
         min-width: 200px;
       }
+    }
+    .ant-form-item-explain {
+      min-height: 24px;
     }
   }
 }
