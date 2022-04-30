@@ -384,7 +384,6 @@ export default class DynamicForm extends Vue.with(Props) {
    */
   formValueChange(event: any, formObjKey: string, isInputText?: boolean): void {
     const { value } = isInputText ? event.target : { value: event };
-    console.log(value);
     this.$emit("valueChange", { key: formObjKey, value });
   }
 }
