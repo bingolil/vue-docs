@@ -2,6 +2,7 @@ import { GetterTree } from "vuex"
 import { AppStateTypes } from "@/store/state"
 
 export type AppGetters = {
+  /** 用户姓名 */
   username(state: AppStateTypes): string
 }
 

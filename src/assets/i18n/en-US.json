@@ -10,6 +10,7 @@
         "selectFile": "Select file",
         "startUpload": "Start upload",
         "uploading": "Uploading",
+        "supportFileType": "File format: {type}",
         "typeError": "Please select file upload in {type} format",
         "limitError": "You can upload up to {maxCount} files at a time"
       }

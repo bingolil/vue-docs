@@ -20,6 +20,6 @@ export interface IRuleItem {
   value?: number | RegExp | string;
   /** 校验触发方式 change值发生变化时校验，blur失去焦点时校验 */
   // trigger?: 'change' | 'blur';
-  /** 是否监听当前控件 type === equal，监听当前控件，在另外的控件展示错误 */
+  /** type === equal时，是否监听当前控件，监听当前控件，在另外的控件展示错误 */
   isListen?: boolean;
 }
