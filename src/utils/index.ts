@@ -6,3 +6,4 @@ export * from './type-judge-util';
 export * from './date-util';
 export * from './format-convert-util';
 export * from './arr-util';
+export * from './number-util';
