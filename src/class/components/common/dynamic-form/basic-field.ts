@@ -1,4 +1,4 @@
-import { IBasicControl, IRuleItem } from "@/interfaces/components/common/dynamic-form";
+import { IRuleItem } from "@/interfaces/components/common/dynamic-form";
 
 /** 基础控件虚类 */
 export abstract class BasicField<T> {
@@ -14,7 +14,7 @@ export abstract class BasicField<T> {
   placeholder: string | string[];
   /** 控件校验列表 */
   rules?: IRuleItem[];
-  constructor(options: IBasicControl<T>) {
+  constructor(options: BasicField<T>) {
     this.key = options.key || '';
     this.label = options.label || '';
     this.value = options.value === undefined ? null : options.value;

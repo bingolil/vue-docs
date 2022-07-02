@@ -1,4 +1,3 @@
-import { ITextarea } from "@/interfaces/components/common/dynamic-form";
 import { InputText } from "./input-text";
 
 /** 多行文本输入框控件类 */
@@ -10,7 +9,7 @@ export class Textarea extends InputText {
   /** textarea 文本输入框行高配置 */
   rowsConfig: { minRows: number, maxRows: number };
 
-  constructor(options: ITextarea) {
+  constructor(options: Textarea) {
     super(options);
     this.rowsConfig = {
       minRows: options.rowsConfig?.minRows || 2,

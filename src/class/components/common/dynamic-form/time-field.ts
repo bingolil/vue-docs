@@ -1,4 +1,3 @@
-import { ITimeControl } from "@/interfaces/components/common/dynamic-form";
 import { DisabledTimeFn } from "@/types";
 import { Dayjs } from "dayjs";
 import { BasicField } from "./basic-field";
@@ -28,7 +27,7 @@ export class TimeField extends BasicField<Dayjs | Dayjs[] | null>{
   /** 不可选时间 */
   disabledTimeFn: DisabledTimeFn | undefined;
 
-  constructor(options: ITimeControl) {
+  constructor(options: TimeField) {
     super(options);
     this.format = options.format || 'HH:mm:ss'
     this.valueFormat = options.valueFormat || 'HH:mm:ss';

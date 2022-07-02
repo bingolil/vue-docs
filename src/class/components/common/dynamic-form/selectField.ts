@@ -1,4 +1,4 @@
-import { IOptionItem, ISelectControl } from "@/interfaces/components/common/dynamic-form";
+import { IOptionItem } from "@/interfaces/components/common/dynamic-form";
 import { SelectMode } from "@/types";
 import { BasicField } from "./basic-field";
 
@@ -20,7 +20,7 @@ export class SelectField extends BasicField<any>{
   /** 是否可输入 */
   showSearch: boolean;
 
-  constructor(options: ISelectControl) {
+  constructor(options: SelectField) {
     super(options);
     this.options = options.options || [];
     this.allowClear = options.allowClear === undefined ? true : options.allowClear;

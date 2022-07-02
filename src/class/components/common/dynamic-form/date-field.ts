@@ -1,4 +1,3 @@
-import { IDateControl } from "@/interfaces/components/common/dynamic-form";
 import { DatePickerType, DisabledDateFn } from "@/types";
 import { TimeField } from "./time-field";
 
@@ -14,7 +13,7 @@ export class DateField extends TimeField {
   /** 不可选日期 */
   disabledDateFn: DisabledDateFn | undefined;
 
-  constructor(options: IDateControl) {
+  constructor(options: DateField) {
     super(options);
     this.format = options.format || 'YYYY-MM-DD'; // 重置日期格式
     this.valueFormat = options.valueFormat || 'YYYY-MM-DD'; // 重置日期格式

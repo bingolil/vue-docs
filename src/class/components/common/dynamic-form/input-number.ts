@@ -1,4 +1,3 @@
-import { IInputNumber } from "@/interfaces/components/common/dynamic-form";
 import { BasicField } from "./basic-field";
 
 /** 数字输入框控件类 */
@@ -14,7 +13,7 @@ export class InputNumber extends BasicField<number | null> {
   /** input-number 单位最小值 */
   step: number;
 
-  constructor(options: IInputNumber) {
+  constructor(options: InputNumber) {
     super(options);
     this.min = options.min || 0;
     this.max = options.max || Infinity;

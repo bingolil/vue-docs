@@ -1,5 +1,4 @@
 import { IOptionItem } from "@/interfaces/components/common/dynamic-form";
-import { ICheckboxGroup } from "@/interfaces/components/common/dynamic-form/checkbox-group";
 import { BasicField } from "./basic-field";
 
 /** 多选框组控件类 */
@@ -10,7 +9,7 @@ export class CheckboxGroup extends BasicField<any[]>{
   /** 多选列表组 */
   options: IOptionItem[];
 
-  constructor(options: ICheckboxGroup) {
+  constructor(options: CheckboxGroup) {
     super(options);
     this.options = options.options || [];
   }
